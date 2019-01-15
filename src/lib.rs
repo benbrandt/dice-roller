@@ -5,6 +5,11 @@ pub fn roll(d: u32) -> u32 {
     rng.gen_range(1, d + 1)
 }
 
+pub fn parse(r: &str) -> u32 {
+    let d_vec: Vec<u32> = r.split('d').map(|x| x.parse().unwrap()).collect();
+    (0..d_vec[0]).fold(0, |acc, _| acc + roll(d_vec[1]))
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -29,5 +34,19 @@ mod tests {
                 assert!(occurrences[&i] > 0)
             }
         }
+    }
+
+    #[test]
+    fn test_parse_single_dice() {
+        let roll = parse("1d8");
+        assert!(roll >= 1);
+        assert!(roll <= 8);
+    }
+
+    #[test]
+    fn test_parse_multiple_dice() {
+        let roll = parse("3d6");
+        assert!(roll >= 3);
+        assert!(roll <= 18);
     }
 }
