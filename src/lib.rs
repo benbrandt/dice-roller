@@ -1,13 +1,23 @@
 use rand::Rng;
+use regex::Regex;
 
 pub fn roll(d: u32) -> u32 {
     let mut rng = rand::thread_rng();
     rng.gen_range(1, d + 1)
 }
 
-pub fn parse(r: &str) -> u32 {
-    let d_vec: Vec<u32> = r.split('d').map(|x| x.parse().unwrap()).collect();
-    (0..d_vec[0]).fold(0, |acc, _| acc + roll(d_vec[1]))
+pub fn parse(dice: &str) -> u32 {
+    let re = Regex::new(r"^(?P<num>\d+)d(?P<d>\d+)$").unwrap();
+    if re.is_match(dice) {
+        let mut sum: u32 = 0;
+        for cap in re.captures_iter(dice) {
+            sum += (0..cap["num"].parse().unwrap())
+                .fold(0, |a, _| a + roll(cap["d"].parse().unwrap()));
+        }
+        sum
+    } else {
+        0
+    }
 }
 
 #[cfg(test)]
@@ -48,5 +58,11 @@ mod tests {
         let roll = parse("3d6");
         assert!(roll >= 3);
         assert!(roll <= 18);
+    }
+
+    #[test]
+    fn test_parse_fail() {
+        let roll = parse("3e6");
+        assert_eq!(roll, 0);
     }
 }
