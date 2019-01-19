@@ -1,18 +1,18 @@
 use rand::Rng;
 use regex::Regex;
 
-pub fn roll(d: u32) -> u32 {
+fn gen_roll(d: u32) -> u32 {
     let mut rng = rand::thread_rng();
     rng.gen_range(1, d + 1)
 }
 
-pub fn parse(dice: &str) -> u32 {
+pub fn roll(dice: &str) -> u32 {
     let re = Regex::new(r"^(?P<num>\d+)d(?P<d>\d+)$").unwrap();
     if re.is_match(dice) {
         let mut sum: u32 = 0;
         for cap in re.captures_iter(dice) {
             sum += (0..cap["num"].parse().unwrap())
-                .fold(0, |a, _| a + roll(cap["d"].parse().unwrap()));
+                .fold(0, |a, _| a + gen_roll(cap["d"].parse().unwrap()));
         }
         sum
     } else {
@@ -26,7 +26,7 @@ mod tests {
     use std::collections::HashMap;
 
     #[test]
-    fn test_roll() {
+    fn test_gen_roll() {
         // All the possible D&D dice
         let dice_values: [u32; 6] = [4, 6, 8, 10, 12, 20];
 
@@ -34,7 +34,7 @@ mod tests {
             let mut occurrences: HashMap<u32, u32> = HashMap::new();
             // Try and get a sample that will have an occurrence for every value
             for _ in 0..d * d {
-                let roll: u32 = roll(*d);
+                let roll: u32 = gen_roll(*d);
                 let count = occurrences.entry(roll).or_insert(0);
                 *count += 1;
             }
@@ -47,22 +47,22 @@ mod tests {
     }
 
     #[test]
-    fn test_parse_single_dice() {
-        let roll = parse("1d8");
+    fn test_roll_single_dice() {
+        let roll = roll("1d8");
         assert!(roll >= 1);
         assert!(roll <= 8);
     }
 
     #[test]
-    fn test_parse_multiple_dice() {
-        let roll = parse("3d6");
+    fn test_roll_multiple_dice() {
+        let roll = roll("3d6");
         assert!(roll >= 3);
         assert!(roll <= 18);
     }
 
     #[test]
-    fn test_parse_fail() {
-        let roll = parse("3e6");
+    fn test_roll_fail() {
+        let roll = roll("3e6");
         assert_eq!(roll, 0);
     }
 }
