@@ -6,7 +6,7 @@ fn gen_roll(d: u32) -> u32 {
     rng.gen_range(1, d + 1)
 }
 
-pub fn roll(dice: &str) -> u32 {
+pub fn roll(dice: &str) -> Result<u32, &str> {
     let re = Regex::new(r"^(?P<num>\d+)d(?P<d>\d+)$").unwrap();
     if re.is_match(dice) {
         let mut sum: u32 = 0;
@@ -14,9 +14,9 @@ pub fn roll(dice: &str) -> u32 {
             sum += (0..cap["num"].parse().unwrap())
                 .fold(0, |a, _| a + gen_roll(cap["d"].parse().unwrap()));
         }
-        sum
+        Ok(sum)
     } else {
-        0
+        Err("Invalid format. Try again with something like 1d20 or 3d6.")
     }
 }
 
@@ -48,21 +48,21 @@ mod tests {
 
     #[test]
     fn test_roll_single_dice() {
-        let roll = roll("1d8");
+        let roll = roll("1d8").unwrap();
         assert!(roll >= 1);
         assert!(roll <= 8);
     }
 
     #[test]
     fn test_roll_multiple_dice() {
-        let roll = roll("3d6");
+        let roll = roll("3d6").unwrap();
         assert!(roll >= 3);
         assert!(roll <= 18);
     }
 
     #[test]
+    #[should_panic]
     fn test_roll_fail() {
-        let roll = roll("3e6");
-        assert_eq!(roll, 0);
+        roll("3e6").unwrap();
     }
 }
