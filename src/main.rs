@@ -1,27 +1,34 @@
-use lambda_runtime::{error::HandlerError, lambda, Context};
-use serde_json::Value;
+extern crate lambda_runtime as lambda;
+extern crate serde_derive;
 
-fn main() {
-    lambda!(handler)
+use lambda::{error::HandlerError, lambda, Context};
+use serde_derive::{Deserialize, Serialize};
+use std::error::Error;
+
+#[derive(Serialize, Deserialize)]
+struct RollEvent {
+    dice: String,
 }
 
-fn handler(event: Value, _: Context) -> Result<Value, HandlerError> {
-    Ok(event)
+#[derive(Serialize, Deserialize)]
+struct RollResponse {
+    roll: String,
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-    use serde_json::json;
+fn main() -> Result<(), Box<dyn Error>> {
+    lambda!(handler);
+    Ok(())
+}
 
-    #[test]
-    fn handler_handles() {
-        let event = json!({
-            "answer": 42
-        });
-        assert_eq!(
-            handler(event.clone(), Context::default()).expect("expected Ok(_) value"),
-            event
-        )
+fn handler(event: RollEvent, ctx: Context) -> Result<RollResponse, HandlerError> {
+    if event.dice == "" {
+        return Err(ctx.new_error("No dice"));
+    }
+
+    match dice_roller::roll(&event.dice) {
+        Ok(r) => Ok(RollResponse {
+            roll: r.to_string(),
+        }),
+        Err(m) => Err(ctx.new_error(m)),
     }
 }
