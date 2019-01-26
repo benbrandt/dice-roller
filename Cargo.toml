@@ -5,7 +5,8 @@ authors = ["Ben Brandt <benjamin.j.brandt@gmail.com>"]
 edition = "2018"
 
 [dependencies]
-lambda_runtime = "0.1"
+lambda_http = "0.1"
+lambda_runtime = "0.2"
 rand = "0.6"
 regex = "1"
 serde = "1.0"
