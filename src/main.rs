@@ -7,25 +7,31 @@ use serde_json::json;
 use simple_logger;
 
 fn main() -> Result<(), Box<dyn Error>> {
-    simple_logger::init_with_level(log::Level::Debug).unwrap();
+    simple_logger::init_with_level(log::Level::Debug)?;
     lambda!(handler);
     Ok(())
 }
 
 fn handler(event: Request, ctx: Context) -> Result<impl IntoResponse, HandlerError> {
-    match event.query_string_parameters().get("dice") {
-        Some(dice) => {
-            let roll = dice_roller::roll(dice)?;
-            Ok(json!({ "roll": roll.to_string() }).into_response())
-        }
+    Ok(match event.query_string_parameters().get("dice") {
+        Some(dice) => match dice_roller::roll(dice) {
+            Ok(roll) => json!({ "roll": roll.to_string() }).into_response(),
+            Err(m) => {
+                error!("Invalid dice in request {}", ctx.aws_request_id);
+                Response::builder()
+                    .status(400)
+                    .body(json!({ "message": m }).to_string().into())
+                    .expect("failed to render response")
+            }
+        },
         _ => {
             error!("Empty dice in request {}", ctx.aws_request_id);
-            Ok(Response::builder()
+            Response::builder()
                 .status(400)
                 .body("Empty dice".into())
-                .expect("failed to render response"))
+                .expect("failed to render response")
         }
-    }
+    })
 }
 
 // #[cfg(test)]

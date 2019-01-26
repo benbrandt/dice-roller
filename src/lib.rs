@@ -1,9 +1,12 @@
+use log::info;
 use rand::Rng;
 use regex::Regex;
 
 fn gen_roll(d: u32) -> u32 {
     let mut rng = rand::thread_rng();
-    rng.gen_range(1, d + 1)
+    let roll = rng.gen_range(1, d + 1);
+    info!("Dice: {}, Roll: {}", d, roll);
+    roll
 }
 
 pub fn roll(dice: &str) -> Result<u32, &str> {
