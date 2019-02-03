@@ -10,7 +10,7 @@ fn gen_roll(d: u32) -> u32 {
 }
 
 pub fn roll(dice: &str) -> Result<u32, &str> {
-    let re = Regex::new(r"^(?P<num>\d+)d(?P<d>\d+)$").unwrap();
+    let re = Regex::new(r"(?P<num>\d+)d(?P<d>\d+)").unwrap();
     if re.is_match(dice) {
         let mut sum: u32 = 0;
         for cap in re.captures_iter(dice) {

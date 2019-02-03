@@ -13,8 +13,6 @@
 service: dice-roller # NOTE: update this with your service name
 provider:
   name: aws
-  runtime: rust
-  memorySize: 128
   # you can overwrite defaults here
   #  stage: dev
   region: us-west-2
@@ -47,6 +45,8 @@ plugins:
 
 functions:
   dice-roller:
+    runtime: rust
+    memorySize: 128
     # handler value syntax is `{cargo-package-name}.{bin-name}`
     # or `{cargo-package-name}` for short when you are building a
     # default bin for a given package.
@@ -56,10 +56,21 @@ functions:
           path: "/"
           method: GET
           cors: true
-          # integration: lambda
-          # request:
-          #   template:
-          #     application/json: '{ "dice" : "$input.params(''dice'')" }'
+
+  dice-roller-bot:
+    runtime: nodejs8.10
+    memorySize: 128
+    handler: handler-dist.hello
+    package:
+      exclude:
+        - ./**
+      include:
+        - ./handler-dist/**
+    events:
+      - http:
+          path: "/bot"
+          method: POST
+          cors: true
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details
