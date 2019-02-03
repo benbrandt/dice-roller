@@ -1,21 +1,21 @@
 use log::info;
-use rand::Rng;
+use rand::{rngs::ThreadRng, Rng};
 use regex::Regex;
 
-fn gen_roll(d: u32) -> u32 {
-    let mut rng = rand::thread_rng();
+fn gen_roll(rng: &mut ThreadRng, d: u32) -> u32 {
     let roll = rng.gen_range(1, d + 1);
     info!("Dice: {}, Roll: {}", d, roll);
     roll
 }
 
 pub fn roll(dice: &str) -> Result<u32, &str> {
+    let mut rng = rand::thread_rng();
     let re = Regex::new(r"(?P<num>\d+)d(?P<d>\d+)").unwrap();
     if re.is_match(dice) {
         let mut sum: u32 = 0;
         for cap in re.captures_iter(dice) {
             sum += (0..cap["num"].parse().unwrap())
-                .fold(0, |a, _| a + gen_roll(cap["d"].parse().unwrap()));
+                .fold(0, |a, _| a + gen_roll(&mut rng, cap["d"].parse().unwrap()));
         }
         Ok(sum)
     } else {
@@ -30,6 +30,7 @@ mod tests {
 
     #[test]
     fn test_gen_roll() {
+        let mut rng = rand::thread_rng();
         // All the possible D&D dice
         let dice_values: [u32; 6] = [4, 6, 8, 10, 12, 20];
 
@@ -37,7 +38,7 @@ mod tests {
             let mut occurrences: HashMap<u32, u32> = HashMap::new();
             // Try and get a sample that will have an occurrence for every value
             for _ in 0..d * d {
-                let roll: u32 = gen_roll(*d);
+                let roll: u32 = gen_roll(&mut rng, *d);
                 let count = occurrences.entry(roll).or_insert(0);
                 *count += 1;
             }
