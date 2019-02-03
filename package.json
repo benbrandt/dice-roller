@@ -9,7 +9,7 @@
     "build:js": "ncc build handler.js -o handler-dist"
   },
   "dependencies": {
-    "@zeit/ncc": "^0.13.0",
+    "@zeit/ncc": "^0.14.0",
     "botbuilder": "^3.16.0",
     "got": "^9.6.0",
     "request": "^2.88.0",
