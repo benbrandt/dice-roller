@@ -1,6 +1,6 @@
 {
   "devDependencies": {
-    "serverless": "^1.37.1",
+    "serverless": "^1.38.0",
     "serverless-rust": "^0.2.1"
   },
   "name": "dice-roller",
@@ -13,6 +13,6 @@
     "botbuilder": "^3.16.0",
     "got": "^9.6.0",
     "request": "^2.88.0",
-    "request-promise-native": "^1.0.5"
+    "request-promise-native": "^1.0.7"
   }
 }
