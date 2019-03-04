@@ -1,7 +1,7 @@
 {
   "devDependencies": {
     "serverless": "^1.38.0",
-    "serverless-rust": "^0.2.1"
+    "serverless-rust": "^0.3.0"
   },
   "name": "dice-roller",
   "scripts": {
@@ -9,7 +9,7 @@
     "build:js": "ncc build handler.js -o handler-dist"
   },
   "dependencies": {
-    "@zeit/ncc": "^0.14.0",
+    "@zeit/ncc": "^0.15.2",
     "botbuilder": "^3.16.0",
     "got": "^9.6.0",
     "request": "^2.88.0",
