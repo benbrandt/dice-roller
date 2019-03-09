@@ -5,7 +5,7 @@
   },
   "name": "dice-roller",
   "scripts": {
-    "deploy": "serverless deploy",
+    "deploy": "npm run build:js && serverless deploy",
     "build:js": "ncc build handler.js -o handler-dist"
   },
   "dependencies": {

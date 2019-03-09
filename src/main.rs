@@ -1,6 +1,7 @@
 use std::error::Error;
 
-use lambda_http::{lambda, IntoResponse, Request, RequestExt, Response};
+use http::{header::CONTENT_TYPE, StatusCode};
+use lambda_http::{lambda, Body, Request, RequestExt, Response};
 use lambda_runtime::{error::HandlerError, Context};
 use log::{self, error};
 use serde_json::json;
@@ -12,23 +13,31 @@ fn main() -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-fn handler(event: Request, ctx: Context) -> Result<impl IntoResponse, HandlerError> {
+fn handler(event: Request, ctx: Context) -> Result<Response<Body>, HandlerError> {
+    let mut response = Response::builder();
+    response
+        .header("Access-Control-Allow-Origin", "*")
+        .header(CONTENT_TYPE, "application/json");
+
     Ok(match event.query_string_parameters().get("dice") {
         Some(dice) => match dice_roller::roll(dice) {
-            Ok(roll) => json!({ "roll": roll.to_string() }).into_response(),
+            Ok(roll) => response
+                .status(StatusCode::OK)
+                .body(json!({ "roll": roll.to_string() }).to_string().into())
+                .expect("failed to render response"),
             Err(m) => {
                 error!("Invalid dice in request {}", ctx.aws_request_id);
-                Response::builder()
-                    .status(400)
+                response
+                    .status(StatusCode::BAD_REQUEST)
                     .body(json!({ "message": m }).to_string().into())
                     .expect("failed to render response")
             }
         },
         _ => {
             error!("Empty dice in request {}", ctx.aws_request_id);
-            Response::builder()
+            response
                 .status(400)
-                .body("Empty dice".into())
+                .body(json!({ "message": "Empty dice" }).to_string().into())
                 .expect("failed to render response")
         }
     })
