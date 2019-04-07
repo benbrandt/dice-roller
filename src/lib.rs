@@ -42,6 +42,9 @@ pub fn roll(cmd: &str) -> Result<u32, &str> {
 
 #[cfg(test)]
 mod tests {
+    // All the possible D&D dice
+    const DICE_VALUES: [u32; 7] = [4, 6, 8, 10, 12, 20, 100];
+
     use super::*;
     use std::collections::HashMap;
 
@@ -66,10 +69,8 @@ mod tests {
     #[test]
     fn test_gen_roll() {
         let mut rng = rand::thread_rng();
-        // All the possible D&D dice
-        let dice_values: [u32; 7] = [4, 6, 8, 10, 12, 20, 100];
 
-        for d in dice_values.iter() {
+        for d in DICE_VALUES.iter() {
             let mut occurrences: HashMap<u32, u32> = HashMap::new();
             // Try and get a sample that will have an occurrence for every value
             for _ in 0..d * d {
