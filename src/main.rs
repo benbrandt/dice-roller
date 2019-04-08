@@ -23,7 +23,7 @@ fn handler(event: Request, ctx: Context) -> Result<Response<Body>, HandlerError>
         Some(dice) => match dice_roller::roll(dice) {
             Ok(roll) => response
                 .status(StatusCode::OK)
-                .body(json!({ "roll": roll.to_string() }).to_string().into())
+                .body(json!(roll).to_string().into())
                 .expect("failed to render response"),
             Err(m) => {
                 error!("Invalid dice in request {}", ctx.aws_request_id);

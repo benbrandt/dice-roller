@@ -1,11 +1,24 @@
 use log::info;
 use rand::{rngs::ThreadRng, Rng};
 use regex::Regex;
+use serde::Serialize;
 
 #[derive(Debug, PartialEq)]
 struct RollInstructions {
     num: u32,
     dice: u32,
+}
+
+#[derive(Serialize, Debug)]
+pub struct DiceResult {
+    pub dice: u32,
+    pub value: u32,
+}
+
+#[derive(Serialize, Debug)]
+pub struct RollResult {
+    pub rolls: Vec<DiceResult>,
+    pub total: u32,
 }
 
 fn parse_roll(cmd: &str) -> Result<Vec<RollInstructions>, &str> {
@@ -24,20 +37,25 @@ fn parse_roll(cmd: &str) -> Result<Vec<RollInstructions>, &str> {
     }
 }
 
-fn gen_roll(rng: &mut ThreadRng, d: u32) -> u32 {
-    let roll = rng.gen_range(1, d + 1);
-    info!("Dice: {}, Roll: {}", d, roll);
-    roll
+fn gen_roll(rng: &mut ThreadRng, dice: u32) -> DiceResult {
+    let roll = rng.gen_range(1, dice + 1);
+    info!("Dice: {}, Roll: {}", dice, roll);
+    DiceResult { dice, value: roll }
 }
 
-pub fn roll(cmd: &str) -> Result<u32, &str> {
+pub fn roll(cmd: &str) -> Result<RollResult, &str> {
     let mut rng = rand::thread_rng();
     let roll_instructions = parse_roll(cmd)?;
-    let mut sum: u32 = 0;
-    for roll in roll_instructions {
-        sum += (0..roll.num).fold(0, |a, _| a + gen_roll(&mut rng, roll.dice));
+    let mut total: u32 = 0;
+    let mut rolls: Vec<DiceResult> = Vec::new();
+    for instruction in roll_instructions {
+        for _ in 0..instruction.num {
+            let roll = gen_roll(&mut rng, instruction.dice);
+            total += roll.value;
+            rolls.push(roll);
+        }
     }
-    Ok(sum)
+    Ok(RollResult { rolls, total })
 }
 
 #[cfg(test)]
@@ -74,8 +92,8 @@ mod tests {
             let mut occurrences: HashMap<u32, u32> = HashMap::new();
             // Try and get a sample that will have an occurrence for every value
             for _ in 0..d * d {
-                let roll: u32 = gen_roll(&mut rng, *d);
-                let count = occurrences.entry(roll).or_insert(0);
+                let roll = gen_roll(&mut rng, *d);
+                let count = occurrences.entry(roll.value).or_insert(0);
                 *count += 1;
             }
 
@@ -89,15 +107,15 @@ mod tests {
     #[test]
     fn test_roll_single_dice() {
         let roll = roll("1d8").unwrap();
-        assert!(roll >= 1);
-        assert!(roll <= 8);
+        assert!(roll.total >= 1);
+        assert!(roll.total <= 8);
     }
 
     #[test]
     fn test_roll_multiple_dice() {
         let roll = roll("3d6").unwrap();
-        assert!(roll >= 3);
-        assert!(roll <= 18);
+        assert!(roll.total >= 3);
+        assert!(roll.total <= 18);
     }
 
     #[test]

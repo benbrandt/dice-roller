@@ -6,12 +6,12 @@ edition = "2018"
 
 [dependencies]
 http = "*"
-lambda_http = "*"
-lambda_runtime = "*"
+lambda_http = { git = "https://github.com/awslabs/aws-lambda-rust-runtime.git"}
+lambda_runtime = { git = "https://github.com/awslabs/aws-lambda-rust-runtime.git"}
 log = "*"
 rand = "*"
 regex = "*"
-serde = "*"
+serde = { version = "*", features = ["derive"] }
 serde_derive = "*"
 serde_json = "*"
 simple_logger = "*"
