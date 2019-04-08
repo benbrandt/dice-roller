@@ -17,6 +17,7 @@ pub struct DiceResult {
 
 #[derive(Serialize, Debug)]
 pub struct RollResult {
+    pub instruction: String,
     pub rolls: Vec<DiceResult>,
     pub total: u32,
 }
@@ -55,7 +56,11 @@ pub fn roll(cmd: &str) -> Result<RollResult, &str> {
             rolls.push(roll);
         }
     }
-    Ok(RollResult { rolls, total })
+    Ok(RollResult {
+        instruction: cmd.to_string(),
+        rolls,
+        total,
+    })
 }
 
 #[cfg(test)]
