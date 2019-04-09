@@ -18,7 +18,7 @@ const bot = new builder.UniversalBot(connector, function(session) {
     json: true
   })
     .then(response => {
-      session.send(response.roll);
+      session.send(response.total);
     })
     .catch(error => {
       session.send(error.response.body.message);
