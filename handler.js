@@ -18,7 +18,11 @@ const bot = new builder.UniversalBot(connector, function(session) {
     json: true
   })
     .then(response => {
-      session.send(response.total);
+      session.send(
+        `${response.rolls.map(r => `d${r.dice}: ${r.value}`).join("\n")}\n${
+          response.instruction
+        }: ${response.total}`
+      );
     })
     .catch(error => {
       session.send(error.response.body.message);
