@@ -5,21 +5,21 @@ use serde::Serialize;
 
 #[derive(Debug, PartialEq)]
 struct RollInstructions {
-    num: u32,
-    dice: u32,
+    num: i32,
+    dice: i32,
 }
 
 #[derive(Serialize, Debug)]
 pub struct DiceResult {
-    pub dice: u32,
-    pub value: u32,
+    pub dice: i32,
+    pub value: i32,
 }
 
 #[derive(Serialize, Debug)]
 pub struct RollResult {
     pub instruction: String,
     pub rolls: Vec<DiceResult>,
-    pub total: u32,
+    pub total: i32,
 }
 
 fn parse_roll(cmd: &str) -> Result<Vec<RollInstructions>, &str> {
@@ -38,7 +38,7 @@ fn parse_roll(cmd: &str) -> Result<Vec<RollInstructions>, &str> {
     }
 }
 
-fn gen_roll(rng: &mut ThreadRng, dice: u32) -> DiceResult {
+fn gen_roll(rng: &mut ThreadRng, dice: i32) -> DiceResult {
     let roll = rng.gen_range(1, dice + 1);
     info!("Dice: {}, Roll: {}", dice, roll);
     DiceResult { dice, value: roll }
@@ -47,9 +47,14 @@ fn gen_roll(rng: &mut ThreadRng, dice: u32) -> DiceResult {
 pub fn roll(cmd: &str) -> Result<RollResult, &str> {
     let mut rng = rand::thread_rng();
     let roll_instructions = parse_roll(cmd)?;
-    let mut total: u32 = 0;
-    let mut rolls: Vec<DiceResult> = Vec::new();
+    let mut total = 0;
+    let mut rolls = Vec::new();
     for instruction in roll_instructions {
+        if instruction.num < 1 {
+            return Err("You have to roll something!");
+        } else if instruction.num > 99 {
+            return Err("Are you a god in this game?! Roll a more reasonable number of dice!");
+        }
         for _ in 0..instruction.num {
             let roll = gen_roll(&mut rng, instruction.dice);
             total += roll.value;
@@ -66,7 +71,7 @@ pub fn roll(cmd: &str) -> Result<RollResult, &str> {
 #[cfg(test)]
 mod tests {
     // All the possible D&D dice
-    const DICE_VALUES: [u32; 7] = [4, 6, 8, 10, 12, 20, 100];
+    const DICE_VALUES: [i32; 7] = [4, 6, 8, 10, 12, 20, 100];
 
     use super::*;
     use std::collections::HashMap;
@@ -94,7 +99,7 @@ mod tests {
         let mut rng = rand::thread_rng();
 
         for d in DICE_VALUES.iter() {
-            let mut occurrences: HashMap<u32, u32> = HashMap::new();
+            let mut occurrences: HashMap<i32, i32> = HashMap::new();
             // Try and get a sample that will have an occurrence for every value
             for _ in 0..d * d {
                 let roll = gen_roll(&mut rng, *d);
@@ -127,5 +132,17 @@ mod tests {
     #[should_panic]
     fn test_roll_fail() {
         roll("3e6").unwrap();
+    }
+
+    #[test]
+    #[should_panic]
+    fn test_roll_too_few() {
+        roll("0d6").unwrap();
+    }
+
+    #[test]
+    #[should_panic]
+    fn test_roll_too_many() {
+        roll("100e6").unwrap();
     }
 }
