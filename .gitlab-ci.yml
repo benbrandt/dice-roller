@@ -1,10 +1,7 @@
-# variables:
-#   CARGO_HOME: $CI_PROJECT_DIR/cargo
-
-# cache:
-#   paths:
-#     - target/
-#     - cargo/
+cache:
+    paths:
+    - $HOME/.cargo/
+    - target/
 
 clippy:
   image: rust:latest
@@ -13,7 +10,7 @@ clippy:
     - rustup update
     - rustup component add clippy
   script:
-    - cargo clippy
+    - cargo clippy --all-targets --all-features -- -D warnings
 
 test:
   image: rust:latest
