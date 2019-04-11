@@ -1,16 +1,39 @@
+variables:
+  CARGO_HOME: $CI_PROJECT_DIR/cargo
+
+cache:
+  paths:
+    - target/
+    - cargo/
+
 stages:
   - test
   - build
 
+clippy:
+  stage: test
+  image: rust:latest
+  before_script:
+    - rustc --version && cargo --version
+    - rustup update
+    - rustup component add clippy
+  script:
+    - cargo clippy
+
 test:
   stage: test
   image: rust:latest
+  before_script:
+    - rustc --version && cargo --version
+    - rustup update
   script:
-    - cargo clippy
     - cargo test --verbose
 
 build:
   stage: build
   image: rust:latest
+  before_script:
+    - rustc --version && cargo --version
+    - rustup update
   script:
     - cargo build --verbose
