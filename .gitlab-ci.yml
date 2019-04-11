@@ -6,12 +6,7 @@ cache:
     - target/
     - cargo/
 
-stages:
-  - test
-  - build
-
 clippy:
-  stage: test
   image: rust:latest
   before_script:
     - rustc --version && cargo --version
@@ -21,7 +16,6 @@ clippy:
     - cargo clippy
 
 test:
-  stage: test
   image: rust:latest
   before_script:
     - rustc --version && cargo --version
@@ -30,7 +24,6 @@ test:
     - cargo test --verbose
 
 build:
-  stage: build
   image: rust:latest
   before_script:
     - rustc --version && cargo --version
