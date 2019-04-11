@@ -1,10 +1,10 @@
-variables:
-  CARGO_HOME: $CI_PROJECT_DIR/cargo
+# variables:
+#   CARGO_HOME: $CI_PROJECT_DIR/cargo
 
-cache:
-  paths:
-    - target/
-    - cargo/
+# cache:
+#   paths:
+#     - target/
+#     - cargo/
 
 clippy:
   image: rust:latest
