@@ -1,9 +1,8 @@
-variables:
-  CARGO_HOME: $CI_PROJECT_DIR/cargo
+image: rust:latest
 
 cache:
     paths:
-    - cargo
+    - /usr/local/cargo
     - target/
 
 clippy:
