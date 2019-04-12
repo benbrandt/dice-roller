@@ -2,7 +2,7 @@ image: rust:latest
 
 cache:
     paths:
-    - /usr/local/cargo
+    - .cargo/
     - target/
 
 clippy:
