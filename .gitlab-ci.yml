@@ -8,6 +8,7 @@ cache:
 clippy:
   image: rust:latest
   before_script:
+    - cp -ru .cargo /usr/local/cargo
     - rustc --version && cargo --version
     - rustup update
     - rustup component add clippy
@@ -19,6 +20,7 @@ clippy:
 test:
   image: rust:latest
   before_script:
+    - cp -ru .cargo /usr/local/cargo
     - rustc --version && cargo --version
     - rustup update
   script:
@@ -29,6 +31,7 @@ test:
 build:
   image: rust:latest
   before_script:
+    - cp -ru .cargo /usr/local/cargo
     - rustc --version && cargo --version
     - rustup update
   script:
