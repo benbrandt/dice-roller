@@ -1,40 +1,45 @@
-image: rust:latest
-
 cache:
-    paths:
-    - .cargo/
+  paths:
     - target/
+    - node_modules/
+    
+stages:
+  - test
+  - build
 
-clippy:
+rust:clippy:
+  stage: test
   image: rust:latest
   before_script:
-    - cp -ru .cargo /usr/local/cargo
     - rustc --version && cargo --version
     - rustup update
     - rustup component add clippy
   script:
     - cargo clippy --all-targets --all-features -- -D warnings
-  after_script:
-    - cp -r /usr/local/cargo .cargo
 
-test:
+rust:test:
+  stage: test
   image: rust:latest
   before_script:
-    - cp -ru .cargo /usr/local/cargo
     - rustc --version && cargo --version
     - rustup update
   script:
     - cargo test --verbose
-  after_script:
-    - cp -r /usr/local/cargo .cargo
 
-build:
+rust:build:
+  stage: test
   image: rust:latest
   before_script:
-    - cp -ru .cargo /usr/local/cargo
     - rustc --version && cargo --version
     - rustup update
   script:
     - cargo build --verbose
-  after_script:
-    - cp -r /usr/local/cargo .cargo
+
+deploy:
+  stage: build
+  image: node:lts
+  before_script:
+    - npm ci
+  script:
+    - npm run build:js
+    - npm run deploy
