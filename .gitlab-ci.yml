@@ -40,6 +40,7 @@ deploy:
   image: circleci/node:lts
   variables:
       DOCKER_HOST: "tcp://docker:2375"
+      DOCKER_DRIVER: overlay
   services:
     - docker:dind
   before_script:
