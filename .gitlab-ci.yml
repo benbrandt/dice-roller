@@ -37,9 +37,7 @@ rust:build:
 
 deploy:
   stage: build
-  image: node:lts
-  services:
-    - docker:dind
+  image: circleci/node:lts
   before_script:
     - npm ci
   script:
