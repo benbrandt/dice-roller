@@ -13,6 +13,8 @@ clippy:
     - rustup component add clippy
   script:
     - cargo clippy --all-targets --all-features -- -D warnings
+  after_script:
+    - cp -r /usr/local/cargo .cargo
 
 test:
   image: rust:latest
@@ -21,6 +23,8 @@ test:
     - rustup update
   script:
     - cargo test --verbose
+  after_script:
+    - cp -r /usr/local/cargo .cargo
 
 build:
   image: rust:latest
@@ -29,3 +33,5 @@ build:
     - rustup update
   script:
     - cargo build --verbose
+  after_script:
+    - cp -r /usr/local/cargo .cargo
