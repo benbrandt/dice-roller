@@ -1,6 +1,9 @@
+variables:
+  CARGO_HOME: $CI_PROJECT_DIR/cargo
+
 cache:
     paths:
-    - /usr/local/cargo
+    - cargo
     - target/
 
 clippy:
