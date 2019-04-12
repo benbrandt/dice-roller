@@ -38,6 +38,8 @@ rust:build:
 deploy:
   stage: build
   image: node:lts
+  services:
+    - docker:latest
   before_script:
     - npm ci
   script:
