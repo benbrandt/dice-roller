@@ -1,6 +1,6 @@
 cache:
     paths:
-    - $HOME/.cargo/
+    - /usr/local/cargo
     - target/
 
 clippy:
