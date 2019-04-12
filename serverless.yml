@@ -35,8 +35,8 @@ provider:
 
   # you can define service wide environment variables here
   environment:
-    MICROSOFT_APP_ID: ${env.MICROSOFT_APP_ID}
-    MICROSOFT_APP_PASSWORD: ${env.MICROSOFT_APP_PASSWORD}
+    MICROSOFT_APP_ID: ${env:MICROSOFT_APP_ID}
+    MICROSOFT_APP_PASSWORD: ${env:MICROSOFT_APP_PASSWORD}
 
 package:
   individually: true
