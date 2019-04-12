@@ -7,7 +7,7 @@ stages:
   - test
   - build
 
-rust:clippy:
+rust:test:
   stage: test
   image: rust:latest
   before_script:
@@ -15,24 +15,8 @@ rust:clippy:
     - rustup update
     - rustup component add clippy
   script:
-    - cargo clippy --all-targets --all-features -- -D warnings
-
-rust:test:
-  stage: test
-  image: rust:latest
-  before_script:
-    - rustc --version && cargo --version
-    - rustup update
-  script:
     - cargo test --verbose
-
-rust:build:
-  stage: test
-  image: rust:latest
-  before_script:
-    - rustc --version && cargo --version
-    - rustup update
-  script:
+    - cargo clippy --all-targets --all-features -- -D warnings
     - cargo build --verbose
 
 deploy:
