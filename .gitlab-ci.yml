@@ -37,7 +37,7 @@ rust:build:
 
 deploy:
   stage: build
-  image: circleci/node:lts
+  image: node:lts
   variables:
       DOCKER_HOST: "tcp://docker:2375"
   services:
