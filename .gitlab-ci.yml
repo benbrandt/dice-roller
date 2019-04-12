@@ -28,7 +28,7 @@ deploy:
   services:
     - docker:dind
   before_script:
-    - npm ci
+    - npm i
   script:
     - npm run build:js
     - npm run deploy
