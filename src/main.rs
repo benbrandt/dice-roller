@@ -6,6 +6,7 @@ use lambda_runtime::{error::HandlerError, Context};
 use log::error;
 use sentry;
 use serde_json::json;
+use url::percent_encoding::percent_decode;
 
 fn main() -> Result<(), Box<dyn Error>> {
     let _guard = sentry::init("https://046b94f8170f4135a47ca9d0f9709a6d@sentry.io/1438468");
@@ -21,19 +22,21 @@ fn handler(event: Request, ctx: Context) -> Result<Response<Body>, HandlerError>
         .header(CONTENT_TYPE, "application/json");
 
     Ok(match event.query_string_parameters().get("dice") {
-        Some(dice) => match dice_roller::roll(dice) {
-            Ok(roll) => response
-                .status(StatusCode::OK)
-                .body(json!(roll).to_string().into())
-                .expect("failed to render response"),
-            Err(m) => {
-                error!("Invalid dice in request {}", ctx.aws_request_id);
-                response
-                    .status(StatusCode::BAD_REQUEST)
-                    .body(json!({ "message": m }).to_string().into())
-                    .expect("failed to render response")
+        Some(dice) => {
+            match dice_roller::roll(&percent_decode(dice.as_bytes()).decode_utf8().unwrap()) {
+                Ok(roll) => response
+                    .status(StatusCode::OK)
+                    .body(json!(roll).to_string().into())
+                    .expect("failed to render response"),
+                Err(m) => {
+                    error!("Invalid dice in request {}", ctx.aws_request_id);
+                    response
+                        .status(StatusCode::BAD_REQUEST)
+                        .body(json!({ "message": m }).to_string().into())
+                        .expect("failed to render response")
+                }
             }
-        },
+        }
         _ => {
             error!("Empty dice in request {}", ctx.aws_request_id);
             response

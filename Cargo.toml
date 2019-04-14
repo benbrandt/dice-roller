@@ -16,3 +16,4 @@ sentry = "*"
 serde = { version = "*", features = ["derive"] }
 serde_derive = "*"
 serde_json = "*"
+url = "*"
