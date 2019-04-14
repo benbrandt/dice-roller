@@ -1,5 +1,10 @@
 const builder = require("botbuilder");
 const request = require("request-promise-native");
+const Sentry = require("@sentry/node");
+
+Sentry.init({
+  dsn: "https://046b94f8170f4135a47ca9d0f9709a6d@sentry.io/1438468"
+});
 
 const connector = new builder.ChatConnector({
   appId: process.env.MICROSOFT_APP_ID,
