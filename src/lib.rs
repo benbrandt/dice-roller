@@ -65,6 +65,7 @@ pub fn roll(cmd: &str) -> Result<RollResult, &str> {
             total += roll.value;
             rolls.push(roll);
         }
+        total += instruction.modifier;
     }
     Ok(RollResult {
         instruction: cmd.to_string(),
