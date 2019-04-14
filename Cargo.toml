@@ -5,13 +5,14 @@ authors = ["Ben Brandt <benjamin.j.brandt@gmail.com>"]
 edition = "2018"
 
 [dependencies]
+env_logger = "*"
 http = "*"
 lambda_http = { git = "https://github.com/awslabs/aws-lambda-rust-runtime.git"}
 lambda_runtime = { git = "https://github.com/awslabs/aws-lambda-rust-runtime.git"}
 log = "*"
 rand = "*"
 regex = "*"
+sentry = "*"
 serde = { version = "*", features = ["derive"] }
 serde_derive = "*"
 serde_json = "*"
-simple_logger = "*"

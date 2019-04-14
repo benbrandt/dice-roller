@@ -3,12 +3,13 @@ use std::error::Error;
 use http::{header::CONTENT_TYPE, StatusCode};
 use lambda_http::{lambda, Body, Request, RequestExt, Response};
 use lambda_runtime::{error::HandlerError, Context};
-use log::{self, error};
+use log::error;
+use sentry;
 use serde_json::json;
-use simple_logger;
 
 fn main() -> Result<(), Box<dyn Error>> {
-    simple_logger::init_with_level(log::Level::Info)?;
+    let _guard = sentry::init("https://046b94f8170f4135a47ca9d0f9709a6d@sentry.io/1438468");
+    sentry::integrations::env_logger::init(None, Default::default());
     lambda!(handler);
     Ok(())
 }
