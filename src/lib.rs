@@ -7,6 +7,7 @@ use serde::Serialize;
 struct RollInstructions {
     num: i32,
     dice: i32,
+    modifier: i32,
 }
 
 #[derive(Serialize, Debug)]
@@ -23,13 +24,17 @@ pub struct RollResult {
 }
 
 fn parse_roll(cmd: &str) -> Result<Vec<RollInstructions>, &str> {
-    let re = Regex::new(r"(?P<num>\d+)d(?P<dice>\d+)").unwrap();
+    let re = Regex::new(r"(?P<num>\d+)d(?P<dice>\d+)(\s*\+\s*(?P<modifier>\d+))?").unwrap();
     if re.is_match(cmd) {
         let rolls: Vec<RollInstructions> = re
             .captures_iter(cmd)
             .map(|cap| RollInstructions {
                 num: cap["num"].parse().unwrap(),
                 dice: cap["dice"].parse().unwrap(),
+                modifier: match cap.name("modifier") {
+                    Some(m) => m.as_str().parse().unwrap(),
+                    None => 0,
+                },
             })
             .collect();
         Ok(rolls)
@@ -79,13 +84,51 @@ mod tests {
     #[test]
     fn test_parse_roll_single_dice() {
         let roll = parse_roll("1d8").unwrap();
-        assert_eq!(roll, [RollInstructions { num: 1, dice: 8 }]);
+        assert_eq!(
+            roll,
+            [RollInstructions {
+                num: 1,
+                dice: 8,
+                modifier: 0
+            }]
+        );
     }
 
     #[test]
     fn test_parse_roll_multiple_dice() {
         let roll = parse_roll("3d6").unwrap();
-        assert_eq!(roll, [RollInstructions { num: 3, dice: 6 }]);
+        assert_eq!(
+            roll,
+            [RollInstructions {
+                num: 3,
+                dice: 6,
+                modifier: 0
+            }]
+        );
+    }
+
+    #[test]
+    fn test_parse_roll_modifier() {
+        let roll = parse_roll("1d8 + 3").unwrap();
+        assert_eq!(
+            roll,
+            [RollInstructions {
+                num: 1,
+                dice: 8,
+                modifier: 3
+            }]
+        );
+    }
+
+    #[test]
+    fn test_parse_roll_modifier_spacing() {
+        let roll1 = parse_roll("1d8 + 3").unwrap();
+        let roll2 = parse_roll("1d8+ 3").unwrap();
+        let roll3 = parse_roll("1d8 +3").unwrap();
+        let roll4 = parse_roll("1d8+3").unwrap();
+        assert_eq!(roll1, roll2);
+        assert_eq!(roll1, roll3);
+        assert_eq!(roll1, roll4);
     }
 
     #[test]
@@ -126,6 +169,13 @@ mod tests {
         let roll = roll("3d6").unwrap();
         assert!(roll.total >= 3);
         assert!(roll.total <= 18);
+    }
+
+    #[test]
+    fn test_roll_multiple_dice_modifier() {
+        let roll = roll("3d6 + 3").unwrap();
+        assert!(roll.total >= 6);
+        assert!(roll.total <= 21);
     }
 
     #[test]
