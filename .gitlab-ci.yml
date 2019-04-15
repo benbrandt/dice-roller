@@ -9,15 +9,15 @@ stages:
 
 rust:test:
   stage: test
-  image: rust:latest
+  image: softprops/lambda-rust:latest
   before_script:
     - rustc --version && cargo --version
     - rustup update
     - rustup component add clippy
   script:
+    - cargo check
     - cargo test --verbose
     - cargo clippy --all-targets --all-features -- -D warnings
-    - cargo build --verbose
 
 deploy:
   stage: build
