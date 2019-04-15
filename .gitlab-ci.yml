@@ -9,7 +9,7 @@ stages:
 
 rust:test:
   stage: test
-  image: softprops/lambda-rust:latest
+  image: rust:latest
   before_script:
     - rustc --version && cargo --version
     - rustup update
