@@ -34,9 +34,9 @@ addons:
       - libssl-dev
 
 before_install:
-  - rustc --version && cargo --version
-  - rustup update
   - rustup component add clippy
+  - nvm install --lts
+  - nvm use --lts
 
 install: |
   # https://github.com/xd009642/tarpaulin/issues/150
