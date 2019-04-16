@@ -12,15 +12,16 @@ rust:
 # https://docs.travis-ci.com/user/pull-requests/#how-pull-requests-are-built
 branches:
   only:
-  - master
+    - master
 
 # Cache `cargo install`ed tools, but don't cache the project's `target`
 # directory (which ends up over-caching and filling all disk space!)
 # https://levans.fr/rust_travis_cache.html
 cache:
-  - cargo
   directories:
+    - $HOME/.cargo
     - $HOME/.npm
+    - $TRAVIS_BUILD_DIR/target
 
 services:
   # start docker to enable lambda ci compatible build env
