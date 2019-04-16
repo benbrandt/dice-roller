@@ -83,3 +83,7 @@ deploy:
     on:
       branch: master
       condition: $TRAVIS_RUST_VERSION = stable
+
+notifications:
+  email:
+    on_success: always
