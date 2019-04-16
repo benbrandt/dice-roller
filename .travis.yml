@@ -7,6 +7,11 @@ rust:
   # for code coverage only
   - nightly
 
+matrix:
+  allow_failures:
+    - rust: nightly
+  fast_finish: true
+
 # only build pushes to master
 # prs are build separately
 # https://docs.travis-ci.com/user/pull-requests/#how-pull-requests-are-built
@@ -77,3 +82,4 @@ deploy:
     skip_cleanup: true
     on:
       branch: master
+      condition: $TRAVIS_RUST_VERSION = stable
