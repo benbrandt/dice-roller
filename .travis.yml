@@ -1,6 +1,3 @@
-# required for docker
-sudo: required
-
 # for more information on configuring a rust travis build
 # see https://docs.travis-ci.com/user/languages/rust/
 language: rust
@@ -21,13 +18,9 @@ branches:
 # directory (which ends up over-caching and filling all disk space!)
 # https://levans.fr/rust_travis_cache.html
 cache:
+  - cargo
   directories:
-    - /home/travis/.cargo
-    - node_modules
-
-before_cache:
-  # But don't cache the cargo registry
-  - rm -rf /home/travis/.cargo/registry
+    - $HOME/.npm
 
 services:
   # start docker to enable lambda ci compatible build env
@@ -39,6 +32,11 @@ addons:
       # required by tarpaulin code coverage tool
       - libssl-dev
 
+before_install:
+  - rustc --version && cargo --version
+  - rustup update
+  - rustup component add clippy
+
 install: |
   # https://github.com/xd009642/tarpaulin/issues/150
   if [[ "$TRAVIS_RUST_VERSION" == nightly ]]; then
@@ -48,10 +46,13 @@ install: |
 script:
   # fail fast if build fails
   - cargo check
+  - cargo clippy --all-targets --all-features -- -D warnings
   # test changes to behavior
   - cargo test
   # package application here to cache build artifacts for future build/deploys
-  - npm i --silent && npx serverless package
+  - npm ci
+  - npm run build:js
+  - npx serverless package
 
 # report coverage to coveralls (on nightly)
 # see https://github.com/xd009642/tarpaulin for more information
