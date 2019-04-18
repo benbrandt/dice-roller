@@ -9,7 +9,7 @@
     "build:js": "ncc build handler.js -o handler-dist"
   },
   "dependencies": {
-    "@sentry/node": "^5.0.8",
+    "@sentry/node": "^5.1.0",
     "@zeit/ncc": "^0.18.0",
     "botbuilder": "^3.16.0",
     "got": "^9.6.0",
