@@ -37,6 +37,7 @@ addons:
     packages:
       # required by tarpaulin code coverage tool
       - libssl-dev
+      - jq
 
 before_install:
   - rustup component add clippy
@@ -46,7 +47,7 @@ before_install:
 install: |
   # https://github.com/xd009642/tarpaulin/issues/150
   if [[ "$TRAVIS_RUST_VERSION" == nightly ]]; then
-    cargo tarpaulin --version || RUSTFLAGS="--cfg procmacro2_semver_exempt" cargo install cargo-tarpaulin
+    cargo tarpaulin --version | grep $(curl 'https://crates.io/api/v1/crates/cargo-tarpaulin' | jq '.crate.max_version' | tr -d '"') || RUSTFLAGS="--cfg procmacro2_semver_exempt" cargo install cargo-tarpaulin
   fi
 
 script:
