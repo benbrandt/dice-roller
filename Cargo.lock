@@ -514,7 +514,7 @@ dependencies = [
 [[package]]
 name = "lambda_http"
 version = "0.1.0"
-source = "git+https://github.com/awslabs/aws-lambda-rust-runtime.git#d02b0e40b57e8b1ef4c33369465984d04cf60d65"
+source = "git+https://github.com/awslabs/aws-lambda-rust-runtime.git#b97d11223978fe60f3a81aad12b9730ecf35e2c5"
 dependencies = [
  "base64 0.10.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "failure 0.1.5 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -531,7 +531,7 @@ dependencies = [
 [[package]]
 name = "lambda_runtime"
 version = "0.2.0"
-source = "git+https://github.com/awslabs/aws-lambda-rust-runtime.git#d02b0e40b57e8b1ef4c33369465984d04cf60d65"
+source = "git+https://github.com/awslabs/aws-lambda-rust-runtime.git#b97d11223978fe60f3a81aad12b9730ecf35e2c5"
 dependencies = [
  "failure 0.1.5 (registry+https://github.com/rust-lang/crates.io-index)",
  "lambda_runtime_core 0.1.1 (git+https://github.com/awslabs/aws-lambda-rust-runtime.git)",
@@ -545,7 +545,7 @@ dependencies = [
 [[package]]
 name = "lambda_runtime_client"
 version = "0.2.1"
-source = "git+https://github.com/awslabs/aws-lambda-rust-runtime.git#d02b0e40b57e8b1ef4c33369465984d04cf60d65"
+source = "git+https://github.com/awslabs/aws-lambda-rust-runtime.git#b97d11223978fe60f3a81aad12b9730ecf35e2c5"
 dependencies = [
  "failure 0.1.5 (registry+https://github.com/rust-lang/crates.io-index)",
  "http 0.1.17 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -561,7 +561,7 @@ dependencies = [
 [[package]]
 name = "lambda_runtime_core"
 version = "0.1.1"
-source = "git+https://github.com/awslabs/aws-lambda-rust-runtime.git#d02b0e40b57e8b1ef4c33369465984d04cf60d65"
+source = "git+https://github.com/awslabs/aws-lambda-rust-runtime.git#b97d11223978fe60f3a81aad12b9730ecf35e2c5"
 dependencies = [
  "backtrace 0.3.15 (registry+https://github.com/rust-lang/crates.io-index)",
  "chrono 0.4.6 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -577,7 +577,7 @@ dependencies = [
 [[package]]
 name = "lambda_runtime_errors"
 version = "0.1.0"
-source = "git+https://github.com/awslabs/aws-lambda-rust-runtime.git#d02b0e40b57e8b1ef4c33369465984d04cf60d65"
+source = "git+https://github.com/awslabs/aws-lambda-rust-runtime.git#b97d11223978fe60f3a81aad12b9730ecf35e2c5"
 dependencies = [
  "failure 0.1.5 (registry+https://github.com/rust-lang/crates.io-index)",
  "lambda_runtime_errors_derive 0.1.0 (git+https://github.com/awslabs/aws-lambda-rust-runtime.git)",
@@ -588,7 +588,7 @@ dependencies = [
 [[package]]
 name = "lambda_runtime_errors_derive"
 version = "0.1.0"
-source = "git+https://github.com/awslabs/aws-lambda-rust-runtime.git#d02b0e40b57e8b1ef4c33369465984d04cf60d65"
+source = "git+https://github.com/awslabs/aws-lambda-rust-runtime.git#b97d11223978fe60f3a81aad12b9730ecf35e2c5"
 dependencies = [
  "proc-macro2 0.4.27 (registry+https://github.com/rust-lang/crates.io-index)",
  "quote 0.6.12 (registry+https://github.com/rust-lang/crates.io-index)",
