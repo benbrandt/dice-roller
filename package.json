@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@sentry/node": "^5.1.0",
-    "@zeit/ncc": "^0.18.0",
+    "@zeit/ncc": "^0.18.1",
     "botbuilder": "^3.16.0",
     "got": "^9.6.0",
     "request": "^2.88.0",
