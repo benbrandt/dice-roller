@@ -41,23 +41,7 @@ provider:
 package:
   individually: true
 
-plugins:
-  - serverless-rust
-
 functions:
-  dice-roller:
-    runtime: rust
-    memorySize: 128
-    # handler value syntax is `{cargo-package-name}.{bin-name}`
-    # or `{cargo-package-name}` for short when you are building a
-    # default bin for a given package.
-    handler: dice-roller
-    events:
-      - http:
-          path: "/"
-          method: GET
-          cors: true
-
   dice-roller-bot:
     runtime: nodejs8.10
     memorySize: 128

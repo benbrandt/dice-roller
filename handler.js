@@ -18,7 +18,7 @@ module.exports.hello = lambda(connector);
 const inMemoryStorage = new builder.MemoryBotStorage();
 const bot = new builder.UniversalBot(connector, function(session) {
   request({
-    uri: "https://fzatry6j6k.execute-api.us-west-2.amazonaws.com/dev/",
+    uri: "https://morning-eyrie-18336.herokuapp.com/",
     qs: { dice: session.message.text },
     json: true
   })
