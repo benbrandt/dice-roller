@@ -19,7 +19,7 @@ const inMemoryStorage = new builder.MemoryBotStorage();
 const bot = new builder.UniversalBot(connector, function(session) {
   request({
     uri: "https://morning-eyrie-18336.herokuapp.com/",
-    qs: { dice: session.message.text },
+    qs: { roll: session.message.text },
     json: true
   })
     .then(response => {
