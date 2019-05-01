@@ -1,6 +1,8 @@
 # for more information on configuring a rust travis build
 # see https://docs.travis-ci.com/user/languages/rust/
 language: node_js
+node_js:
+  - "lts/*"
 
 # only build pushes to master
 # prs are build separately
