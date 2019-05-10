@@ -18,15 +18,15 @@ module.exports.hello = lambda(connector);
 const inMemoryStorage = new builder.MemoryBotStorage();
 const bot = new builder.UniversalBot(connector, function(session) {
   request({
-    uri: "https://morning-eyrie-18336.herokuapp.com/",
+    uri: "https://morning-eyrie-18336.herokuapp.com/roll/",
     qs: { roll: session.message.text },
     json: true
   })
-    .then(response => {
+    .then(({ instruction: { num, die, modifier }, rolls, total }) => {
       session.send(
-        `${response.rolls.map(r => `d${r.dice}: ${r.value}`).join("\n")}\n${
-          response.instruction
-        }: ${response.total}`
+        `${rolls.map(r => `d${r.dice}: ${r.value}`).join("\n")}\n${num}d${die}${
+          modifier ? `+ ${modifier}` : ""
+        }: ${total}`
       );
     })
     .catch(error => {
