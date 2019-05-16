@@ -43,7 +43,7 @@ package:
 
 functions:
   dice-roller-bot:
-    runtime: nodejs8.10
+    runtime: nodejs10.x
     memorySize: 128
     handler: handler-dist.hello
     package:
