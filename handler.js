@@ -24,7 +24,7 @@ const bot = new builder.UniversalBot(connector, function(session) {
   })
     .then(({ instruction: { num, die, modifier }, rolls, total }) => {
       session.send(
-        `${rolls.map(r => `d${r.die}: ${r.value}`).join("\n")}\n${num}d${die}${
+        `Rolls: ${rolls.join(", ")}\n${num}d${die}${
           modifier ? `+ ${modifier}` : ""
         }: ${total}`
       );
