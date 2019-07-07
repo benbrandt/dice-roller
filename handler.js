@@ -22,11 +22,9 @@ const bot = new builder.UniversalBot(connector, function(session) {
     qs: { roll: session.message.text },
     json: true
   })
-    .then(({ instruction: { num, die, modifier }, rolls, total }) => {
+    .then(({ instruction, rolls, total }) => {
       session.send(
-        `Rolls: ${rolls.join(", ")}\n${num}d${die}${
-          modifier ? `+ ${modifier}` : ""
-        }: ${total}`
+        `Rolls: ${rolls.join(", ")}\n${instruction}: ${total}`
       );
     })
     .catch(error => {
