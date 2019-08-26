@@ -11,12 +11,12 @@ branches:
   only:
     - master
 
-cache: npm
+cache: yarn
 
 script:
   # package application here to cache build artifacts for future build/deploys
-  - npm ci
-  - npm run build:js
+  - yarn --frozen-lockfile
+  - yarn build:js
   - npx serverless package
 
 # deploy on pushes to master branch
