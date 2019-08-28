@@ -486,10 +486,10 @@ atob@^2.1.1:
   resolved "https://registry.yarnpkg.com/atob/-/atob-2.1.2.tgz#6d9517eb9e030d2436666651e86bd9f6f13533c9"
   integrity sha512-Wm6ukoaOGJi/73p/cl2GvLjTI5JM1k/O14isD73YML8StrH/7/lRFgmg8nICZgD3bZZvjwCGxtMOD3wWNAu8cg==
 
-aws-sdk@^2.509.0:
-  version "2.517.0"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.517.0.tgz#415e6732d46c478a4f1867920d25af57651063b1"
-  integrity sha512-CX0b+8StmzAGQOP5eoBYJExpjTdPeVPig3NC4crq71/0LkrIDGcc6ekVEl0Rx23WTyGDzExeDD1be1HvQNwHdA==
+aws-sdk@^2.518.0:
+  version "2.518.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.518.0.tgz#a0412cfcb41fd02e18d9e8b20c1dce356160fcc2"
+  integrity sha512-hwtKKf93TFyd3qugDW54ElpkUXhPe+ArPIHadre6IAFjCJiv08L8DaZKLRyclDnKfTavKe+f/PhdSEYo1QUHiA==
   dependencies:
     buffer "4.9.1"
     events "1.1.1"
@@ -1979,7 +1979,7 @@ inquirer@^1.0.2:
     strip-ansi "^3.0.0"
     through "^2.3.6"
 
-inquirer@^6.5.1:
+inquirer@^6.5.2:
   version "6.5.2"
   resolved "https://registry.yarnpkg.com/inquirer/-/inquirer-6.5.2.tgz#ad50942375d036d327ff528c08bd5fab089928ca"
   integrity sha512-cntlB5ghuB0iuO65Ovoi8ogLHiWGs/5yNrtUcKjFhSSiVeAIVpD7koaSU9RM8mpXw5YDi9RdYXGQMaOURB7ycQ==
@@ -3373,16 +3373,16 @@ serve-static@1.14.1:
     parseurl "~1.3.3"
     send "0.17.1"
 
-serverless@^1.50.1:
-  version "1.50.1"
-  resolved "https://registry.yarnpkg.com/serverless/-/serverless-1.50.1.tgz#e09d6d1fdc553ff240bd7bbf378190c50759acb2"
-  integrity sha512-kFUoTrTR05wKXDmyeCPfsC6OKijTa+Wxg8ygucl+zbWuXS7AiEdAPZBqYvOr11uany1sRhTetUhKxB9SfE5+0Q==
+serverless@^1.51.0:
+  version "1.51.0"
+  resolved "https://registry.yarnpkg.com/serverless/-/serverless-1.51.0.tgz#ae22eee9073beb7661d72b1354d33609a44844d4"
+  integrity sha512-OwBCC8joJ93GEjoG6ygx0cZHnHkQxdNtuxJ2bgyg94uxup3FUOBUPujUbAVrJsoZs1p5bz2/YIA1QzOnLz/crQ==
   dependencies:
     "@serverless/cli" "^1.0.3"
     "@serverless/enterprise-plugin" "^1.3.9"
     archiver "^1.3.0"
     async "^1.5.2"
-    aws-sdk "^2.509.0"
+    aws-sdk "^2.518.0"
     bluebird "^3.5.5"
     cachedir "^2.2.0"
     chalk "^2.4.2"
@@ -3395,7 +3395,7 @@ serverless@^1.50.1:
     globby "^6.1.0"
     graceful-fs "^4.2.2"
     https-proxy-agent "^2.2.2"
-    inquirer "^6.5.1"
+    inquirer "^6.5.2"
     is-docker "^1.1.0"
     is-wsl "^2.1.0"
     js-yaml "^3.13.1"
