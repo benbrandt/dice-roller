@@ -1,6 +1,6 @@
 {
   "devDependencies": {
-    "serverless": "^1.51.0"
+    "serverless": "^1.52.0"
   },
   "name": "dice-roller",
   "scripts": {
