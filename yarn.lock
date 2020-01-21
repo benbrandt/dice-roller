@@ -3362,10 +3362,10 @@ semver@^6.1.1, semver@^6.2.0:
   resolved "https://registry.yarnpkg.com/semver/-/semver-6.3.0.tgz#ee0a64c8af5e8ceea67687b133761e1becbd1d3d"
   integrity sha512-b39TBaTSfV6yBrapU89p5fKekE2m/NwnDocOVruQFS1/veMgdzuPcnOM34M6CwxW8jH/lxEa5rBoDeUwu5HHTw==
 
-serverless@^1.61.2:
-  version "1.61.2"
-  resolved "https://registry.yarnpkg.com/serverless/-/serverless-1.61.2.tgz#c43693e68582cb44f1df2c80d663d8954784adea"
-  integrity sha512-/U/yOdL/gZVamPqkqFBRwUXs0gj1vD0uRkLtsmyFoTzVqbMf0qM0Fd9OYL8v6IvJa2H+Nfy2C9uD2G8KGD8RxQ==
+serverless@^1.61.3:
+  version "1.61.3"
+  resolved "https://registry.yarnpkg.com/serverless/-/serverless-1.61.3.tgz#d73f3cb95ce6394d288dcf10baac76e9251edfbc"
+  integrity sha512-ejwNsCOLIAVAiW8/OwRarHebbQiJXxqfFneYGMJlfVRkztoNp4wR+ZiBfnRTEmux2mGeI8MB5o2AC4wzOkhr5w==
   dependencies:
     "@serverless/cli" "^1.4.0"
     "@serverless/enterprise-plugin" "^3.2.7"
