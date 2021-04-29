@@ -1,0 +1,21 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "13:00"
+  open-pull-requests-limit: 99
+  reviewers:
+  - benbrandt
+  ignore:
+  - dependency-name: botbuilder
+    versions:
+    - ">= 4.a, < 5"
+  - dependency-name: "@sentry/node"
+    versions:
+    - 6.3.3
+  - dependency-name: serverless
+    versions:
+    - 2.37.0
+    - 2.37.2
